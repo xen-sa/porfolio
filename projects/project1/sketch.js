@@ -3,116 +3,128 @@ let angle = 0;
 function mousePressed() {
   print("vertex(" + mouseX + ", " + mouseY + ");");
 }
+
 function setup() {
-  createCanvas(800, 600);
+  container = select("#sketch-container");
+
+  let h = container.height;
+  let w = h*4/3;
+
+  let c = createCanvas(w, h);
+  c.parent("sketch-container");
+
   colorMode(RGB);
   angleMode(DEGREES);
 }
 
+function windowResized() {
+  let h = container.height;
+  let w = h*4/3;
+  resizeCanvas(w, h);
+}
+
 function draw() {
+  let w = width;
+  let h = height;
+
   let windX = mouseX / 40;
   let windY = mouseY / 40;
+
   background(114, 166, 137);
   noStroke();
 
+  // --- Background layers (scaled) ---
   fill(159, 206, 241);
-  rect(0, 0, 800, 200);
+  rect(0, 0, w, h * 0.30);
 
   fill(240, 165, 113);
-  rect(0, 84, 800, 200);
+  rect(0, h * 0.14, w, h * 0.25);
 
   fill(238, 151, 91, 255);
-  rect(0, 100, 800, 200);
+  rect(0, h * 0.17, w, h * 0.25);
 
   fill(237, 145, 81);
-  rect(0, 120, 800, 200);
-  
-  //sun
+  rect(0, h * 0.20, w, h * 0.25);
+
+  // --- Sun ---
   push(); 
-  translate(width / 2, 130);
+  translate(w / 2, h * 0.22);
   blendMode(SCREEN);
-  circle(0, 0, 200);
+  circle(0, 0, h * 0.33);
   pop();
 
   fill(230, 137, 73);
-  rect(0, 140, 800, 200);
+  rect(0, h * 0.24, w, h * 0.25);
 
-  //lake
+  // --- Lake (scaled) ---
   push();
   fill("rgb(120,166,223)");
-  ellipse(width / 2, 350, 900, 350);
+  ellipse(w / 2, h * 0.58, w * 1.2, h * 0.55);
 
   fill("rgb(109,159,221)");
-  ellipse(width / 2, 350, windX + 700, windY + 300);
+  ellipse(w / 2, h * 0.58, windX + w * 0.9, windY + h * 0.33);
 
   fill("rgb(103,156,221)");
-  ellipse(width / 2, 350, windY + 600, windX + 250);
-
+  ellipse(w / 2, h * 0.58, windY + w * 0.75, windX + h * 0.22);
   pop();
 
-  //
+  // --- Rotating blades ---
   push();
-  translate(166, 365);
+  translate(w * 0.21, h * 0.61);
   rotate(angle);
   fill("#35634A");
-  arc(50, 0, 40, 30, 0, 340);
-  arc(50, 40, 40, 30, 0, 340);
-  angle = angle + 0.1;
+  arc(w * 0.06, 0, w * 0.05, h * 0.05, 0, 340);
+  arc(w * 0.06, h * 0.07, w * 0.05, h * 0.05, 0, 340);
+  angle += 0.1;
   pop();
 
-  //tree
+  // --- Tree trunk ---
   fill(121, 76, 48);
   beginShape();
-  vertex(609, 600);
-  vertex(813, 611);
-  vertex(725, 393);
-  vertex(691, 480);
+  vertex(w * 0.76, h);
+  vertex(w * 1.02, h * 1.02); 
+  vertex(w * 0.90, h * 0.66);
+  vertex(w * 0.84, h * 0.80);
   endShape();
 
   beginShape();
-  vertex(702, 455);
-  vertex(545, 346);
-  vertex(725, 393);
-  vertex(691, 480);
+  vertex(w * 0.86, h * 0.76);
+  vertex(w * 0.68, h * 0.58);
+  vertex(w * 0.90, h * 0.66);
+  vertex(w * 0.84, h * 0.80);
   endShape();
 
   beginShape();
-  vertex(702, 455);
-  vertex(545, 346);
-  vertex(725, 393);
-  vertex(691, 480);
+  vertex(w * 0.87, h * 0.65);
+  vertex(w * 0.87, h * 0.37);
+  vertex(w * 0.91, h * 0.47);
+  vertex(w * 0.90, h * 0.66);
   endShape();
 
   beginShape();
-  vertex(701, 390);
-  vertex(701, 221);
-  vertex(729, 279);
-  vertex(727, 396);
+  vertex(w * 0.89, h * 0.66);
+  vertex(w * 1.05, h * 0.42);
+  vertex(w * 1.00, h * 0.53);
+  vertex(w * 0.92, h * 0.69);
   endShape();
 
-  beginShape();
-  vertex(721, 397);
-  vertex(845, 251);
-  vertex(810, 319);
-  vertex(735, 418);
-  endShape();
-  //end tree
-
-  //folliage
+  // --- Foliage ---
   push();
   blendMode(DARKEST);
   fill("#3E6B50");
+
   beginShape();
-  vertex(689, 223);
-  vertex(542, 351);
-  vertex(517, 463);
-  vertex(534, 557);
-  vertex(666, 500);
-  vertex(728, 566);
-  vertex(809, 481);
-  vertex(809, 314);
-  vertex(762, 208);
-  vertex(726, 290);
+  vertex(w * 0.83, h * 0.37);
+  vertex(w * 0.65, h * 0.58);
+  vertex(w * 0.62, h * 0.77);
+  vertex(w * 0.64, h * 0.93);
+  vertex(w * 0.80, h * 0.83);
+  vertex(w * 0.88, h * 0.94);
+  vertex(w * 1.00, h * 0.80);
+  vertex(w * 1.00, h * 0.52);
+  vertex(w * 0.94, h * 0.34);
+  vertex(w * 0.89, h * 0.45);
   endShape();
+
   pop();
 }

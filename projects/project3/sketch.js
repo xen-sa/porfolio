@@ -6,12 +6,10 @@ let brew = false;
 let flow = "stop";
 let centerCoffee;
 let waterPour = 0;
-let waterStop;
 let waterY = 0;
-let gramCount;
 let maxGrams = 40;
 let start = true;
-let coffeeFall = 100;
+let coffeeFall = 0;
 let end = false;
 
 function mouseClicked() {
@@ -22,7 +20,7 @@ function mouseClicked() {
   } else if (end) {
     coffeeFall = 0;
     grams = 0;
-    maxGrams=0;
+    maxGrams = 0;
     flow = "pour";
     start = false;
     brew = true;
@@ -31,132 +29,144 @@ function mouseClicked() {
 }
 
 function preload() {
-  font = loadFont("/sketches/project3/digital.ttf");
+  font = loadFont("digital.ttf");
 }
 
-function setup() {
-  createCanvas(600, 600);
-  centerCoffee = height / 2 - 30;
+function setup() {  
+  container = select("#sketch-container");
+
+  let h = container.height;
+  let w = container.height;
+
+  let c = createCanvas(w, h);
+  c.parent("sketch-container");
+
+  centerCoffee = height / 2 - height * 0.05;
+  textFont("Tahoma");
+}
+
+function windowResized() {
+  let h = container.height;
+  let w = container.height;
+  resizeCanvas(w, h);
+  centerCoffee = height / 2 - height * 0.05;
 }
 
 function draw() {
   background("rgb(198,163,136)");
   noStroke();
 
+  let w = width;
+  let h = height;
+
   textAlign(CENTER);
   textFont("Tahoma");
-  textSize(20);
+  textSize(h * 0.03);
 
   fill("white");
   if (start) {
-    text("click anywhere to brew your coffee.", width / 2, 550);
+    text("click anywhere to brew your coffee.", w / 2, h * 0.9);
   }
+
   textFont(font);
 
   // coffee balance
   fill("black");
-  rect(125, 150, 350, 350, 20);
+  rect(w * 0.2, h * 0.25, w * 0.58, h * 0.58, w * 0.03);
   fill("rgb(83,81,81)");
-  rect(120, 160, 355, 250);
+  rect(w * 0.19, h * 0.27, w * 0.59, h * 0.42);
+
   push();
   stroke("rgba(80,80,80,0.88)");
   fill("rgb(85,85,85)");
-  for (s=160; s<=400; s+=20){
-    rect(121, s, 353, 10, 5);
+  for (let s = h * 0.27; s <= h * 0.67; s += h * 0.05) {
+    rect(w * 0.195, s, w * 0.585, h * 0.025, w * 0.01);
   }
   pop();
 
-  if (brew) {
-    elapsedTime = int(millis() / 1000); // elapsed in seconds
-  }
+  if (brew) elapsedTime = int(millis() / 1000);
 
   let minutes = int(elapsedTime / 60);
   let seconds = elapsedTime % 60;
   let timerText = minutes + ":" + nf(seconds, 2);
 
-  textSize(40);
+  textSize(h * 0.07);
   textAlign(LEFT, CENTER);
-  //timer
   fill("white");
-  text(timerText, 160, 455);
-  //g/s
+  text(timerText, w * 0.27, h * 0.76);
+
   push();
   fill("#FDB864");
-  text("0.0", 300, 455);
-  pop();
-  //gramos
-  push();
-  textAlign(RIGHT);
-  text(round(grams) + ".0", 450, 455);
-  pop();
-  //small texts
-  push();
-  textFont("Tahoma");
-  textSize(12);
-  text("g", 440, 432);
-  fill("#FDB864");
-  text("g/s", 326, 432);
+  text("0.0", w * 0.5, h * 0.76);
   pop();
 
   push();
-  translate(width / 2, height / 2 - 30);
+  textAlign(RIGHT);
+  text(round(grams) + ".0", w * 0.75, h * 0.76);
+  pop();
+
+  push();
+  textFont("Tahoma");
+  textSize(h * 0.02);
+  text("g", w * 0.74, h * 0.70);
+  fill("#FDB864");
+  text("g/s", w * 0.53, h * 0.70);
+  pop();
+
+  // --- coffee ellipse ---
+  push();
+  translate(w / 2, h / 2 - h * 0.05);
   fill("#664D3B");
   ellipse(0, 0, coffeeFall);
 
-  //jarra
+  // jar
   fill("rgba(255,255,255,0.35)");
-  ellipse(0, 0, 320);
-  rect(125, -16, 55, 32, 0, 15, 15, 0);
+  ellipse(0, 0, w * 0.53);
+  rect(w * 0.21, -h * 0.027, w * 0.09, h * 0.053, 0, w * 0.04, w * 0.04, 0);
   fill("rgba(255,255,255,0.1)");
-  ellipse(0, 0, 300);
-  rect(150, -16, 30, 32, 0, 15, 15, 0);
+  ellipse(0, 0, w * 0.5);
+  rect(w * 0.25, -h * 0.027, w * 0.05, h * 0.053, 0, w * 0.04, w * 0.04, 0);
 
-  //v60
+  // v60
   rotate(-0.3);
-  fill("rgb(255, 255, 255)");
-  rect(120, -13, 50, 26, 10);
-  ellipse(0, 0, 260);
-  for (let r = 240 / 2; r > 0; r--) {
-    let inter = map(r, 0, 240 / 2, 0, 1);
+  fill("white");
+  rect(w * 0.2, -h * 0.022, w * 0.08, h * 0.043, w * 0.02);
+  ellipse(0, 0, w * 0.43);
+  for (let r = (w * 0.43) / 2; r > 0; r--) {
+    let inter = map(r, 0, (w * 0.43) / 2, 0, 1);
     fill(lerpColor(color(216, 216, 216), color(245, 245, 245), inter));
     ellipse(0, 0, r * 2);
   }
 
   fill("#664D3B");
-  ellipse(0, 0, 130);
+  ellipse(0, 0, w * 0.22);
   pop();
 
   if (elapsedTime == 30 || elapsedTime == 60 || elapsedTime == 90) {
     flow = "pour";
-    pourNumber = +1;
   } else if (elapsedTime == 120) {
     brew = false;
     end = true;
     textAlign(CENTER);
     textFont("Tahoma");
-    textSize(20);
-    text("your coffee is ready.", width / 2, 550);
+    textSize(h * 0.03);
+    text("your coffee is ready.", w / 2, h * 0.9);
   }
-  if (elapsedTime == 30) {
-    maxGrams = 100;
-  }
-  if (elapsedTime == 60) {
-    maxGrams = 160;
-  }
-  if (elapsedTime == 90) {
-    maxGrams = 220;
-  }
+
+  if (elapsedTime == 30) maxGrams = 100;
+  if (elapsedTime == 60) maxGrams = 160;
+  if (elapsedTime == 90) maxGrams = 220;
 
   waterFlow();
 
   fill("rgb(165,186,231)");
-  rect(width / 2 - 5, waterY, 10, waterPour);
+  rect(w / 2 - w * 0.008, waterY, w * 0.016, waterPour);
 }
 
 function waterFlow() {
   if (flow == "pour") {
     waterY = 0;
-    waterPour += 6;
+    waterPour += height * 0.01;
     grams = map(waterPour, 0, centerCoffee, 0, maxGrams, true);
     if (waterPour >= centerCoffee) {
       waterPour = centerCoffee;
@@ -164,24 +174,18 @@ function waterFlow() {
       timer = millis();
     }
   } else if (flow === "wait") {
-    if (millis() - timer > 4000) {
-      flow = "slow";
-    }
+    if (millis() - timer > 4000) flow = "slow";
   } else if (flow === "slow") {
     coffeeDrip();
-    waterY += 15;
-    waterPour -= 15;
+    waterY += height * 0.025;
+    waterPour -= height * 0.025;
     if (waterPour <= 0) {
       waterPour = 0;
-      state = "stop";
+      flow = "stop";
     }
-  }
-  if (flow != "stop") {
   }
 }
 
 function coffeeDrip() {
-  if (coffeeFall < 300) {
-    coffeeFall += 0.4;
-  }
+  if (coffeeFall < height * 0.5) coffeeFall += height * 0.002;
 }

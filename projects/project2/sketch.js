@@ -1,3 +1,5 @@
+let container;
+
 let leftWidthCenter;
 let rightWidthCenter;
 let heightCenter;
@@ -6,7 +8,7 @@ let faceDiameter;
 
 let faceFillH;
 let faceFillS;
-let backgroudFillH;
+let backgroundFillH;
 let backgroundFillS;
 
 let over = false;
@@ -15,11 +17,11 @@ let pupilX;
 let pupilY;
 let maxMouthHeight;
 let pupilDiameter;
-let count=0;
+let count = 0;
 
 function randomize() {
-  //create random variables
-  faceDiameter = random(120, 300);
+  // Scale face diameter relative to canvas height
+  faceDiameter = random(height * 0.20, height * 0.6);
   faceFillH = random(210, 260);
   faceFillS = random(30, 40);
   backgroundFillH = random(300, 350);
@@ -29,8 +31,20 @@ function randomize() {
 }
 
 function setup() {
-  createCanvas(400, 400);
-  colorMode(HSB);
+  container = select("#sketch-container");
+
+  let h = container.height;
+
+  let c = createCanvas(h, h);
+  c.parent("sketch-container");
+
+  colorMode(HSB, 360, 100, 100);
+  randomize();
+}
+
+function windowResized() {
+  let h = container.height;
+  resizeCanvas(h, h);
   randomize();
 }
 
@@ -38,81 +52,75 @@ function draw() {
   background(backgroundFillH, backgroundFillS, 100);
   noStroke();
 
+  let w = width;
+  let h = height;
+
   leftWidthCenter = -faceDiameter * 0.21;
   rightWidthCenter = faceDiameter * 0.21;
   heightCenter = -faceDiameter * 0.15;
+
   featuresSize();
 
-  //face shape (circle)
-  translate(width / 2, height / 2);
+  // --- face ---
+  push();
+  translate(w / 2, h / 2);
   fill(faceFillH, faceFillS, 100);
-  face = circle(0, 0, faceDiameter);
+  circle(0, 0, faceDiameter);
 
-  //eyes
+  // --- eyes ---
   fill("white");
   circle(leftWidthCenter, heightCenter, eyeDiameter);
   circle(rightWidthCenter, heightCenter, eyeDiameter);
 
-  //pupils
-  let distance = dist(0, 0, mouseX - width / 2, mouseY - height / 2);
-  pupilDiameter = map(
-    distance,
-    0,
-    width / 2,
-    eyeDiameter * 0.85,
-    eyeDiameter * 0.75,
-    true
-  );
+  // --- pupils ---
+  let distance = dist(0, 0, mouseX - w / 2, mouseY - h / 2);
+  pupilDiameter = map(distance, 0, w / 2, eyeDiameter * 0.85, eyeDiameter * 0.75, true);
 
-  //left pupil
   push();
   fill("black");
   translate(leftWidthCenter, heightCenter);
   circle(pupilX, pupilY, pupilDiameter);
   pop();
 
-  //right pupil
   push();
   fill("black");
   translate(rightWidthCenter, heightCenter);
   circle(pupilX, pupilY, pupilDiameter);
   pop();
 
-  //mouth
-  let mouthHeight = map(distance, 0, width / 2, maxMouthHeight, 0, true);
+  // --- mouth ---
+  let mouthHeight = map(distance, 0, w / 2, maxMouthHeight, 0, true);
 
   push();
-  strokeWeight(2);
+  strokeWeight(w * 0.003); // scale stroke weight
   stroke("white");
   line(-faceDiameter / 8, faceDiameter / 5, faceDiameter / 8, faceDiameter / 5);
   ellipse(0, faceDiameter / 5, faceDiameter / 4, mouthHeight);
   pop();
 
-  //text
-  if (scared == true) {
+  // --- text ---
+  if (scared) {
     fill(faceFillH, faceFillS, 100);
-    textSize(17);
+    textSize(h * 0.035); 
     textAlign(CENTER);
-    text("you scared your friend away :( \n click anywhere to make a new one", 0, 50);
+    text(
+      "you scared your friend away :( \n click anywhere to make a new one",
+      0,
+      -h * 0.3
+    );
   }
-  
-  if (frameCount%4==0){
-    count=count+1;
-  }
-  
+
+  if (frameCount % 4 === 0) count++;
+  pop();
 }
 
 function featuresSize() {
-  if (scared == true) {
-    faceDiameter = 40;
+  if (scared) {
+    faceDiameter = height * 0.07;
     eyeDiameter = faceDiameter * 0.6;
     maxMouthHeight = 0;
-    pupilY=0;
-    if(count%2==0){
-      pupilX = 1;
-    } else{
-    pupilX = -1;
-    }  
+    pupilY = 0;
+    pupilX = count % 2 === 0 ? 1 : -1;
   } else {
     pupilX = (mouseX - width / 2) / eyeDiameter;
     pupilY = (mouseY - height / 2) / eyeDiameter;
@@ -121,21 +129,16 @@ function featuresSize() {
 }
 
 function overFace() {
-  if (
+  over =
     mouseX > width / 2 - faceDiameter / 2 &&
     mouseX < width / 2 + faceDiameter / 2 &&
     mouseY > height / 2 - faceDiameter / 2 &&
-    mouseY < height / 2 + faceDiameter / 2
-  ) {
-    over = true;
-  } else {
-    over = false;
-  }
+    mouseY < height / 2 + faceDiameter / 2;
 }
 
 function mouseClicked() {
   overFace();
-  if (over == true) {
+  if (over) {
     scared = true;
   } else {
     randomize();

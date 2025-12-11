@@ -1,7 +1,4 @@
-let head;
-let neck;
-let body;
-let legs;
+let head, neck, body, legs;
 let myFont;
 let nodUp = false;
 let dialogue =
@@ -11,61 +8,112 @@ let displayText = "";
 let i = 0;
 let bubbleHeight = 50;
 let gossip = false;
+let container;
+let h;
+let w;
 
 function preload() {
-  myFont = loadFont("/sketches/project4/myfont.ttf");
-  head = loadImage("/sketches/project4/head.png");
-  neck = loadImage("/sketches/project4/neck.png");
-  body = loadImage("/sketches/project4/body.png");
-  legs = loadImage("/sketches/project4/legs.png");
+  myFont = loadFont("assets/myfont.ttf");
+  head = loadImage("assets/head.png");
+  neck = loadImage("assets/neck.png");
+  body = loadImage("assets/body.png");
+  legs = loadImage("assets/legs.png");
 }
 
 function setup() {
-  createCanvas(400, 700);
+  container = select("#sketch-container");
+
+  h = container.height;
+  w = h*4/7;
+
+  let c = createCanvas(w, h);
+  c.parent("sketch-container");
+
   words = dialogue.split(" ");
+  textFont(myFont);
+  textAlign(LEFT, TOP);
+
+  noStroke();
+}
+
+function windowResized() {
+  h = container.height;
+  w = h*4/7;
+  resizeCanvas(w, h);
 }
 
 function draw() {
+  w = width;
+  h = height;
+
   background("#FBFBFB00");
   fill("rgb(170,217,241)");
-  rect(0,0,400,600);
-  image(legs, 27, 280, 158, 319);
-  image(body, 26, 188, 121, 165);
-  image(neck, 54, 124, 75, 98);
+  rect(0, 0, w, h * 0.85);
 
-  noStroke();
-  fill("black");
-  textFont(myFont);
-  textSize(20);
-  textLeading(15);
+  // --- draw character scaled ---
+  let legsW = w * 0.395;
+  let legsH = h * 0.456;
+  let legsX = w * 0.0675;
+  let legsY = h * 0.4;
+  image(legs, legsX, legsY, legsW, legsH);
 
+  let bodyW = w * 0.3025;
+  let bodyH = h * 0.23;
+  let bodyX = w * 0.065;
+  let bodyY = h * 0.271;
+  image(body, bodyX, bodyY, bodyW, bodyH);
+
+  let neckW = w * 0.1875;
+  let neckH = h * 0.14;
+  let neckX = w * 0.135;
+  let neckY = h * 0.179;
+  image(neck, neckX, neckY, neckW, neckH);
+
+  // head
   push();
-  translate(72, 127);
+  translate(w * 0.18, h * 0.182);
   nod();
-  image(head, -59, -115, 203, 165);
+  image(head, -w * 0.147, -h * 0.166, w * 0.507, h * 0.235);
   pop();
 
+  // title text
   push();
-  textSize(40);
-  textLeading(30);
-  text("The gossip giraffe", 230, 40, 190);
+  textSize(h * 0.057); // scale font
+  textLeading(h * 0.043);
+  textAlign(LEFT, TOP);
+  fill("black");
+  text("The gossip giraffe", w * 0.575, h * 0.03, w * 0.475);
   pop();
 
-  if (gossip == false) {
-    text("click anywhere to gossip with giraffe", 232, 100, 150);
+  let textX = w * 0.58;
+  let textY = h * 0.124;
+
+  // instruction or dialogue
+  if (!gossip) {
+    textSize(h * 0.03);
+    textLeading(h * 0.025);
+    fill("black");
+    text("click anywhere to gossip with giraffe", textX, textY, w * 0.375);
   }
 
-  if (gossip == true) {
+  if (gossip) {
     fill("white");
-    textBubble(220, 80, 155);
-    triangle(220, 95, 220, 127, 198, 103);
+    textBubble(w * 0.55, h * 0.124, w * 0.387);
+    triangle(
+      w * 0.55,
+      h * 0.137,
+      w * 0.55,
+      h * 0.177,
+      w * 0.495,
+      h * 0.137
+    );
     fill("black");
-    writeDialogue(230, 100, 142);
+    writeDialogue(w * 0.575, h * 0.143, w * 0.375);
   }
 }
 
 function nod() {
-  if (frameCount % 40 == 0) {
+  if (frameCount % 40 === 0) {
     nodUp = !nodUp;
   }
   if (nodUp) {
@@ -76,21 +124,22 @@ function nod() {
 }
 
 function mouseClicked() {
-  print(mouseX, mouseY);
   gossip = true;
 }
 
 function writeDialogue(x, y, w) {
-  if (frameCount % 5 == 0 && i < words.length) {
+  if (frameCount % 5 === 0 && i < words.length) {
     displayText += words[i] + " ";
     i++;
   }
+  textSize(h * 0.03);
+  textLeading(h * 0.035);
   text(displayText, x, y, w);
 }
 
 function textBubble(x, y, w) {
-  if (frameCount % 6 == 0) {
-    bubbleHeight += 3.8;
+  if (frameCount % 6 === 0) {
+    bubbleHeight += h * 0.005;
   }
   rect(x, y, w, bubbleHeight, 5);
 }

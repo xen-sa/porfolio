@@ -62,8 +62,8 @@ function setMargins(){
   rectWidth=(width-padding-margins)/2;
   rectHeight=(height-padding-margins)/2;
   heightCenter= rectHeight/2;
-  halfHeight=windowHeight/2;
-  halfWidth=windowWidth/2;
+  halfHeight= height/2;
+  halfWidth= width/2;
 }
 
 function moveButtons() {
@@ -104,8 +104,8 @@ function drawText(){
     }
   }
 
-  const textRectWidth = windowWidth/15*6;
-  const textRectHeight = windowHeight/7;
+  const textRectWidth = width/15*6;
+  const textRectHeight = height/7;
 
   rectMode(CENTER);
   push()

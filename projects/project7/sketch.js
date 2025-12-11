@@ -1,32 +1,39 @@
 function preload(){
-  font=loadFont("sketches/project7/assets/dogicapixel.ttf");
-  fontBold=loadFont("sketches/project7/assets/dogicapixelbold.ttf");
+  font=loadFont("assets/dogicapixel.ttf");
+  fontBold=loadFont("assets/dogicapixelbold.ttf");
 
   for (let i = 2; i <= 7; i++) {
-    monterreyImages.push(loadImage("sketches/project7/assets/monterrey/" + i + ".png"));
-    parisImages.push(loadImage("sketches/project7/assets/paris/" + i + ".png"));
-    seoulImages.push(loadImage("sketches/project7/assets/seoul/" + i + ".png"));
-    nycImages.push(loadImage("sketches/project7/assets/nyc/" + i + ".png"));
+    monterreyImages.push(loadImage("assets/monterrey/" + i + ".png"));
+    parisImages.push(loadImage("assets/paris/" + i + ".png"));
+    seoulImages.push(loadImage("assets/seoul/" + i + ".png"));
+    nycImages.push(loadImage("assets/nyc/" + i + ".png"));
   }
 
   for (let i=2; i <=7; i++){
-    monterreyImagesOver.push(loadImage("sketches/project7/assets/monterrey/over/" + i + ".png"));
-    parisImagesOver.push(loadImage("sketches/project7/assets/paris/over/" + i + ".png"));
-    seoulImagesOver.push(loadImage("sketches/project7/assets/seoul/over/" + i + ".png"));
-    nycImagesOver.push(loadImage("sketches/project7/assets/nyc/over/" + i + ".png"));
+    monterreyImagesOver.push(loadImage("assets/monterrey/over/" + i + ".png"));
+    parisImagesOver.push(loadImage("assets/paris/over/" + i + ".png"));
+    seoulImagesOver.push(loadImage("assets/seoul/over/" + i + ".png"));
+    nycImagesOver.push(loadImage("assets/nyc/over/" + i + ".png"));
   }
 
-  characterImagesRight.push(loadImage("sketches/project7/assets/character/characterRight.png"));
-  characterImagesRight.push(loadImage("sketches/project7/assets/character/characterRight2.png"));
+  characterImagesRight.push(loadImage("assets/character/characterRight.png"));
+  characterImagesRight.push(loadImage("assets/character/characterRight2.png"));
 
-  characterImagesLeft.push(loadImage("sketches/project7/assets/character/characterLeft.png"));
-  characterImagesLeft.push(loadImage("sketches/project7/assets/character/characterLeft2.png"));
+  characterImagesLeft.push(loadImage("assets/character/characterLeft.png"));
+  characterImagesLeft.push(loadImage("assets/character/characterLeft2.png"));
 
-  titleImage=loadImage("sketches/project7/assets/title.png")
+  titleImage=loadImage("assets/title.png")
 }
 
 function setup() {
-  createCanvas(displayWidth, displayHeight);
+  container = select("#sketch-container");
+
+  let h = container.height;
+  let w = container.width;
+
+  let c = createCanvas(w, h);
+  c.parent(container);
+
   noCursor();
   mgr = new SceneManager();
   mgr.wire();
