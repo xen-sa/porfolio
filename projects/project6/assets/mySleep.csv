@@ -1,0 +1,7 @@
+empty,laptop,laptop,phone,phone,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,phone,sleep,sleep,wakeUp,empty,empty,empty,empty,empty,empty
+empty,phone,phone,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,phone,phone,sleep,sleep,sleep,wakeUp,wakeUp,empty,empty,empty,empty,empty,empty,empty,empty,empty
+phone,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,phone,sleep,wakeUp,empty,empty,empty,empty,empty
+phone,sleep,sleep,sleep,phone,sleep,phone,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,wakeUp,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty
+phone,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,phone,sleep,sleep,sleep,sleep,sleep,wakeUp,empty
+phone,phone,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,wakeUp,empty,empty,empty,empty,empty,empty,empty,empty,empty
+empty,empty,laptop,laptop,laptop,laptop,laptop,laptop,laptop,phone,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,sleep,wakeUp,empty,empty
