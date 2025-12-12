@@ -11,8 +11,10 @@ let maxGrams = 40;
 let start = true;
 let coffeeFall = 0;
 let end = false;
+let trueTime;
 
 function mouseClicked() {
+  startTime=millis();
   if (!end) {
     flow = "pour";
     start = false;
@@ -63,6 +65,8 @@ function draw() {
   textFont("Tahoma");
   textSize(h * 0.03);
 
+  trueTime=millis()-startTime;
+
   fill("white");
   if (start) {
     text("click anywhere to brew your coffee.", w / 2, h * 0.9);
@@ -84,7 +88,7 @@ function draw() {
   }
   pop();
 
-  if (brew) elapsedTime = int(millis() / 1000);
+  if (brew) elapsedTime = int(trueTime / 1000);
 
   let minutes = int(elapsedTime / 60);
   let seconds = elapsedTime % 60;
@@ -108,9 +112,9 @@ function draw() {
   push();
   textFont("Tahoma");
   textSize(h * 0.02);
-  text("g", w * 0.74, h * 0.70);
+  text("g", w * 0.74, h * 0.72);
   fill("#FDB864");
-  text("g/s", w * 0.53, h * 0.70);
+  text("g/s", w * 0.55, h * 0.72);
   pop();
 
   // --- coffee ellipse ---
@@ -171,10 +175,10 @@ function waterFlow() {
     if (waterPour >= centerCoffee) {
       waterPour = centerCoffee;
       flow = "wait";
-      timer = millis();
+      timer = trueTime;
     }
   } else if (flow === "wait") {
-    if (millis() - timer > 4000) flow = "slow";
+    if (trueTime - timer > 4000) flow = "slow";
   } else if (flow === "slow") {
     coffeeDrip();
     waterY += height * 0.025;

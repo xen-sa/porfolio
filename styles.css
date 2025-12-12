@@ -6,7 +6,7 @@ body{
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    height: 100vh;
+    height: 95vh;
 
     display: flex;
     justify-content: center;
@@ -21,6 +21,14 @@ h1 {
 p {
     font-size: 1.25rem;
     text-align: left;
+    margin: 0.25rem;
+}
+
+p1 {
+    font-size: 1.25rem;
+    text-align: left;
+    color:#d8b4c3;
+    font-style: italic;
 }
 
 a {
@@ -52,6 +60,11 @@ a {
 .finder#projectindividual{
     width: 85vw;
     height: 80vh;
+}
+
+.finder#about{
+    width: 60vw;
+    height: 60vh;
 }
 
 .navigation {  
@@ -113,6 +126,10 @@ a {
     align-self: stretch;
 }
 
+#contents p{
+    color: #939393;
+}
+
 #header {
     display: flex;
     padding: 1.1875rem 2.25rem;
@@ -147,13 +164,6 @@ a {
     width: 12.75rem;
 }
 
-.folder img{
-    width: 8.25rem;
-    height: 7.1875rem;
-    flex-shrink: 0;
-    aspect-ratio: 132/115;
-}
-
 .horizontal-flex {
     display: flex;
     justify-content: center;
@@ -162,16 +172,30 @@ a {
     flex: 1;
 }
 
+.horizontal-flex img{
+    width: 40%;
+    height: auto;
+    flex-shrink: 0;
+}
+
 .grid {
-    display: inline-grid;
+    display: grid;
     row-gap: 2.5rem;
     column-gap: 15px;
     grid-template-rows: repeat(2, fit-content(100%));
-    grid-template-columns:     fit-content(100%) fit-content(100%) fit-content(100%) 182px;
+    grid-template-columns:  fit-content(100%) fit-content(100%) fit-content(100%) 182px;
     align-items: start;
+    margin: 0;
 }
 
-#all-sketch{
+.grid img {
+    width: 100%;
+    height: auto;
+    max-width: 128px;         /* or whatever */
+    image-rendering: pixelated;
+}
+
+.all-sketch{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -182,9 +206,10 @@ a {
 }
 
 #sketch-container {
-    flex: 1;                  /* fills remaining space below the paragraph */
+    flex: 1;                  
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
     position:relative;
 }
 
@@ -194,4 +219,23 @@ a {
 
 #header a{
     color: #606060;
+}
+
+#horizontal.all-sketch {
+    flex-direction: row;
+    flex: 1;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+#text-box {
+    margin-right: 1rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1;
+    height: 100%;
+    width: 70%;     
 }
