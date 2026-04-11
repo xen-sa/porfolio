@@ -183,8 +183,6 @@ a {
     justify-content: center;
     align-items: center;
     gap: 0.5625rem;
-    flex: 1;
-    width: 12.75rem;
 }
 
 .horizontal-flex {
